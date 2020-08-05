@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>CLIENT_ID</key>
+	<string>66075411842-7g5sa8jdkhr3e51e8agd3nfpo01ouejo.apps.googleusercontent.com</string>
+	<key>REVERSED_CLIENT_ID</key>
+	<string>com.googleusercontent.apps.66075411842-7g5sa8jdkhr3e51e8agd3nfpo01ouejo</string>
+	<key>API_KEY</key>
+	<string>AIzaSyBKa9b9-smrDmqbqbGsKzv3u2gzmKgNUxM</string>
+	<key>GCM_SENDER_ID</key>
+	<string>66075411842</string>
+	<key>PLIST_VERSION</key>
+	<string>1</string>
+	<key>BUNDLE_ID</key>
+	<string>org.reactjs.native.example.snakes</string>
+	<key>PROJECT_ID</key>
+	<string>snakes-86c43</string>
+	<key>STORAGE_BUCKET</key>
+	<string>snakes-86c43.appspot.com</string>
+	<key>IS_ADS_ENABLED</key>
+	<false></false>
+	<key>IS_ANALYTICS_ENABLED</key>
+	<false></false>
+	<key>IS_APPINVITE_ENABLED</key>
+	<true></true>
+	<key>IS_GCM_ENABLED</key>
+	<true></true>
+	<key>IS_SIGNIN_ENABLED</key>
+	<true></true>
+	<key>GOOGLE_APP_ID</key>
+	<string>1:66075411842:ios:30b30707e594b03409fb9b</string>
+	<key>DATABASE_URL</key>
+	<string>https://snakes-86c43.firebaseio.com</string>
+</dict>
+</plist>
