@@ -6,18 +6,7 @@ import DialogInput from 'react-native-dialog-input';
 import { create } from 'react-test-renderer';
 
 
-const player1 = {
-    "gameID": 22,
-    "name": "philip"
-};
-const player2 = {
-    "gameID": 686,
-    "name": "artin"
-};
-
-
-
-StartScreen = () => {
+StartScreen = (props) => {
     const [value, setDialog] = useState(false)
     const [valueJoin, setDialogJoin] = useState(false)
     const [player, setPlayer] = useState({name: "", gameID: 0})
@@ -27,7 +16,9 @@ StartScreen = () => {
         var obj = {
             "name": name
         }
-        createGame(obj);
+        createGame(obj).then( (res) => {
+            props.navigation.navigate("Waiting")
+        });
     }
 
 
@@ -36,7 +27,10 @@ StartScreen = () => {
             console.log("no player name yet")
         } else {
             console.log("playername entered")
-            joinGame(player)
+            joinGame(player).then((res) => {
+                
+                props.navigation.navigate("Waiting");
+            })
         }
     }, [player.name])
 
@@ -90,7 +84,12 @@ StartScreen = () => {
                 }}
                 closeDialog={ () => {setJoining(!joining)}}>
             </DialogInput>
-                
+            <Button title = "waitingscreen"
+                type = "outline"
+                onPress = {() => {
+                    props.navigation.navigate("Waiting")
+                }}
+            />
         </View>
         
     )}
@@ -100,7 +99,6 @@ StartScreen = () => {
             alignItems: "center",
             marginTop: 190
         },
-
     })
 
 

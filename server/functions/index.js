@@ -45,6 +45,9 @@ exports.joinGame = functions.https.onCall((data) => {
     president: false,
     groupVote: "none", //accept decline
     missionVote: "none", // fail success
+  }).then(() => {
+    console.log("joined game")
+    return true;
   })
 })
 
