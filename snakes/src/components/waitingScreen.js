@@ -1,7 +1,7 @@
 import React, {useState, useEffect} from 'react';
 import {View,Text, StyleSheet, TextInput, Alert} from 'react-native'; 
 import {Button, Overlay, Input} from 'react-native-elements';
-import {createGame, joinGame} from '../api/cloudFunctions'
+import {createGame, joinGame, onPlayerCreate} from '../api/cloudFunctions'
 import DialogInput from 'react-native-dialog-input';
 import { create } from 'react-test-renderer';
 import { Avatar, Accessory } from 'react-native-elements';
@@ -13,25 +13,36 @@ const list = [{
         avatar_url: 'https://s3.amazonaws.com/uifaces/faces/twitter/ladylexy/128.jpg',
         subtitle: 'Vice President'
     },
-    {
-        name: 'Chris Jackson',
-        avatar_url: 'https://s3.amazonaws.com/uifaces/faces/twitter/adhamdannaway/128.jpg',
-        subtitle: 'Vice Chairman'
-    },
 ]
+
 
 
 //props include name
 WaitingScreen = (props) => {
+    console.log(props.route.params.name)
+
+    const [players, setPlayers] = useState([props.route.params.name])
+    //not allowed to use data from cloud function oncreate, bug?
+    useEffect(() => {
+        const listenerForJoiners = () => onPlayerCreate().then((res) => {
+            setPlayers([...players, res.data])
+            console.log("playerslist i waitingscren: ")
+        }).catch(err => {console.log("error: " , err)})
+        
+        return () => listenerForJoiners()
+    })
+   
+   
+
     return (
         <View style = {styles.container}>
             {
-                list.map((l, i) => (
+                players.map((l, i) => (
                 <ListItem
                     key={i}
-                    leftAvatar={{ source: { uri: l.avatar_url } }}
-                    title={l.name}
-                    subtitle={l.subtitle}
+                    //leftAvatar={{ source: { uri: l.avatar_url } }}
+                    title={l}
+                    //subtitle={l.subtitle}
                     bottomDivider
                 />
     ))}

@@ -1,7 +1,7 @@
 import React, {useState, useEffect} from 'react';
 import {View,Text, StyleSheet, TextInput, Alert} from 'react-native'; 
 import {Button, Overlay, Input} from 'react-native-elements';
-import {createGame, joinGame} from '../api/cloudFunctions'
+import {createGame, joinGame, onPlayerCreate} from '../api/cloudFunctions'
 import DialogInput from 'react-native-dialog-input';
 import { create } from 'react-test-renderer';
 
@@ -11,13 +11,16 @@ StartScreen = (props) => {
     const [valueJoin, setDialogJoin] = useState(false)
     const [player, setPlayer] = useState({name: "", gameID: 0})
     const [joining, setJoining] = useState(false);
-    
     const sendName = (name) => {
         var obj = {
             "name": name
         }
-        createGame(obj).then( (res) => {
-            props.navigation.navigate("Waiting")
+        createGame(obj).then(() => {
+
+            console.log("creategame i startscreen")
+            props.navigation.navigate("Waiting", {
+                name: name
+            }) 
         });
     }
 
@@ -29,8 +32,11 @@ StartScreen = (props) => {
             console.log("playername entered")
             joinGame(player).then((res) => {
                 
-                props.navigation.navigate("Waiting");
-            })
+                
+                props.navigation.navigate("Waiting", {
+                    name: player.name
+                }); //send propname
+            }).catch(error => {console.log("error i startscreen 39")})
         }
     }, [player.name])
 
