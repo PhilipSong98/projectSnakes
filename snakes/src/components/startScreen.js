@@ -19,7 +19,8 @@ StartScreen = (props) => {
 
             console.log("creategame i startscreen")
             props.navigation.navigate("Waiting", {
-                name: name
+                name: name,
+                gameID: "test"
             }) 
         });
     }

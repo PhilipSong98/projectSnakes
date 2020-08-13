@@ -6,6 +6,7 @@ import DialogInput from 'react-native-dialog-input';
 import { create } from 'react-test-renderer';
 import { Avatar, Accessory } from 'react-native-elements';
 import { ListItem } from 'react-native-elements';
+import {db} from '../../config'
 
 //should be the one fetched from database
 const list = [{
@@ -20,7 +21,13 @@ const list = [{
 //props include name
 WaitingScreen = (props) => {
     console.log(props.route.params.name)
-
+    console.log(props.route.params.gameID)
+    const dbPlayers = db.ref('games/'+props.route.params.gameID);
+    dbPlayers.once("value")
+    .then((snapshot) => {
+        console.log(snapshot.val());
+        console.log(snapshot);
+    })
     const [players, setPlayers] = useState([props.route.params.name])
     //not allowed to use data from cloud function oncreate, bug?
     useEffect(() => {
