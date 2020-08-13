@@ -20,7 +20,7 @@ StartScreen = (props) => {
             console.log("creategame i startscreen")
             props.navigation.navigate("Waiting", {
                 name: name,
-                gameID: "test"
+                otherParam: "test",
             }) 
         });
     }
@@ -35,7 +35,8 @@ StartScreen = (props) => {
                 
                 
                 props.navigation.navigate("Waiting", {
-                    name: player.name
+                    name: player.name,
+                    gameID: player.gameID
                 }); //send propname
             }).catch(error => {console.log("error i startscreen 39")})
         }

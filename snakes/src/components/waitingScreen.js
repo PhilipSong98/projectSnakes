@@ -20,8 +20,7 @@ const list = [{
 
 //props include name
 WaitingScreen = (props) => {
-    console.log(props.route.params.name)
-    console.log(props.route.params.gameID)
+    console.log(props.route.params)
     const dbPlayers = db.ref('games/'+props.route.params.gameID);
     dbPlayers.once("value")
     .then((snapshot) => {
