@@ -21,7 +21,7 @@ exports.createGame = functions.https.onCall((data) => {
   return database.ref('games/'+id).set({players: 1})
   .then(() => {
     database.ref('games/'+id+'/' + data.name).set({
-      onQuest: false,
+        onQuest: false,
         role: "none",
         president: false,
         groupVote: "none", //accept decline

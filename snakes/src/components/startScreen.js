@@ -68,9 +68,10 @@ StartScreen = (props) => {
                 title={"Snakes"}
                 message={"Enter game ID"}
                 hintInput ={"Id here"}
-                submitInput={ (ID) => {setPlayer({...player, ["gameID"]: ID})
-                setDialogJoin(!valueJoin)
-                setJoining(!joining)
+                submitInput={ (ID) => {
+                    setPlayer({...player, ["gameID"]: ID})
+                    setDialogJoin(!valueJoin)
+                    setJoining(!joining)
                 }}
                 closeDialog={ () => {setDialogJoin(!valueJoin)}}>
             </DialogInput>
