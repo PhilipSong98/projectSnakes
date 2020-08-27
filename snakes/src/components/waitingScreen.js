@@ -20,26 +20,24 @@ const list = [{
 
 //props include name
 WaitingScreen = (props) => {
-    console.log(props.route.params)
-    const dbPlayers = db.ref('games/'+props.route.params.gameID);
-    dbPlayers.once("value")
-    .then((snapshot) => {
-        console.log(snapshot.val());
-        console.log(snapshot);
-    })
     const [players, setPlayers] = useState([props.route.params.name])
-    //not allowed to use data from cloud function oncreate, bug?
-    useEffect(() => {
-        const listenerForJoiners = () => onPlayerCreate().then((res) => {
-            setPlayers([...players, res.data])
-            console.log("playerslist i waitingscren: ")
-        }).catch(err => {console.log("error: " , err)})
-        
-        return () => listenerForJoiners()
-    })
-   
-   
+    const dbReference = db.ref('games/'+props.route.params.gameID);
 
+    useEffect(() => {
+        dbReference.once("value")
+        .then((snapshot) => {
+        let tempList = []
+        for (key in snapshot.val()){
+            console.log(snapshot.val());
+            if (key !== "players"){
+                tempList = [...tempList, key]
+            }
+        }
+        let newList = players.concat(tempList);
+        setPlayers(newList); 
+    })
+    }, [])
+   
     return (
         <View style = {styles.container}>
             {
@@ -58,7 +56,7 @@ WaitingScreen = (props) => {
 
     const styles = StyleSheet.create({
         container: {
-            marginTop: 190
+            marginTop: 20
         },
         avatar: {
             color: "red"
