@@ -6,6 +6,7 @@ import DialogInput from 'react-native-dialog-input';
 import { create } from 'react-test-renderer';
 
 
+
 StartScreen = (props) => {
     const [value, setDialog] = useState(false)
     const [valueJoin, setDialogJoin] = useState(false)
@@ -15,12 +16,13 @@ StartScreen = (props) => {
         var obj = {
             "name": name
         }
-        createGame(obj).then(() => {
-
-            console.log("creategame i startscreen")
+        createGame(obj).then((returnObj) => {
+            console.log("creategame i startscreen", returnObj.data)
+            setPlayer(...player, {["gameID"]: returnObj.data});
             props.navigation.navigate("Waiting", {
                 name: name,
-                otherParam: "test",
+                gameID: returnObj.data,
+                creator: true,
             }) 
         });
     }
@@ -36,7 +38,8 @@ StartScreen = (props) => {
                 
                 props.navigation.navigate("Waiting", {
                     name: player.name,
-                    gameID: player.gameID
+                    gameID: player.gameID,
+                    creator: false,
                 }); //send propname
             }).catch(error => {console.log("error i startscreen 39")})
         }

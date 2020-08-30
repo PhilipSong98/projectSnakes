@@ -1,5 +1,5 @@
 import React, {useState, useEffect} from 'react';
-import {View,Text, StyleSheet, TextInput, Alert} from 'react-native'; 
+import {View,Text, StyleSheet, TextInput, Alert, TouchableOpacity} from 'react-native'; 
 import {Button, Overlay, Input} from 'react-native-elements';
 import {createGame, joinGame, onPlayerCreate} from '../api/cloudFunctions'
 import DialogInput from 'react-native-dialog-input';
@@ -8,35 +8,31 @@ import { Avatar, Accessory } from 'react-native-elements';
 import { ListItem } from 'react-native-elements';
 import {db} from '../../config'
 
-//should be the one fetched from database
-const list = [{
-        name: 'Amy Farha',
-        avatar_url: 'https://s3.amazonaws.com/uifaces/faces/twitter/ladylexy/128.jpg',
-        subtitle: 'Vice President'
-    },
-]
-
-
-
 //props include name
 WaitingScreen = (props) => {
-    const [players, setPlayers] = useState([props.route.params.name])
+    const [players, setPlayers] = useState([])
     const dbReference = db.ref('games/'+props.route.params.gameID);
+    let numOfplayers = 0;
 
     useEffect(() => {
-        dbReference.once("value")
-        .then((snapshot) => {
-        let tempList = []
-        for (key in snapshot.val()){
-            console.log(snapshot.val());
-            if (key !== "players"){
-                tempList = [...tempList, key]
+        //number of players
+        db.ref('games/' + props.route.params.gameID + '/players').on("value", (snapshot) => {
+            numOfplayers = snapshot.val();
+            console.log("antal: ", numOfplayers)
+        })
+        
+        // Fires ones for all childs and everytime new child is added.
+        dbReference.on("child_added", (snapshot) => {
+            console.log("child added", snapshot.val(), snapshot.key);
+            if (snapshot.key !== "players"){
+                setPlayers(prevstate => {
+                    return [...prevstate, snapshot.key]
+                });
             }
-        }
-        let newList = players.concat(tempList);
-        setPlayers(newList); 
-    })
+        })        
     }, [])
+
+
    
     return (
         <View style = {styles.container}>
@@ -50,7 +46,9 @@ WaitingScreen = (props) => {
                     bottomDivider
                 />
     ))}
+            {props.route.params.creator ? <TouchableOpacity> {numOfplayers == 5 ? <Text>  Start! </Text> : <Text>Waiting for players</Text>} </TouchableOpacity> : null }
         </View>
+        
         
     )}
 
